@@ -1,11 +1,155 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>My Minecraft Server</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daitaku Server</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #0f172a, #020617);
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    h1 {
+      font-size: 60px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+
+    .subtitle {
+      font-size: 20px;
+      color: #cbd5e1;
+    }
+
+    .box {
+      max-width: 900px;
+      margin: 40px auto;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+    }
+
+    .server-ip {
+      font-size: 30px;
+      text-align: center;
+      margin: 20px 0;
+      color: #38bdf8;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 15px 30px;
+      background: #5865F2;
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      margin-top: 20px;
+      transition: 0.2s;
+      font-size: 18px;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .feature {
+      background: rgba(255,255,255,0.05);
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #94a3b8;
+    }
+  </style>
 </head>
 <body>
-  <h1>ようこそ！</h1>
-  <p>マイクラサーバー公開中！</p>
+
+  <header>
+    <h1>Daitaku Server</h1>
+    <p class="subtitle">Minecraft Multiplayer Server</p>
+  </header>
+
+  <div class="box">
+    <h2>サーバーIP</h2>
+    <div class="server-ip">
+      java版:companies-memorial.gl.joinmc.link<br>
+      統合版:IP:companies-memorial.gl.at.ply.gg<br>
+             ポート:64686<br>
+      フレンド:daitaku1563<br>
+     （スイッチはこれ）
+    </div>
+
+    <center>
+      <a class="button" href="https://discord.gg/G4nG8hmkbA">
+        Discordに参加
+      </a>
+    </center>
+  </div>
+
+  <div class="box">
+    <h2>入り方</h2>
+
+    <div class="features">
+      <div class="feature">
+        <h3>JAVA</h3>
+        <p>IPを入れるだけ！</p>
+      </div>
+
+      <div class="feature">
+        <h3>統合版</h3>
+        <p>PIPとポートを入れるだけ！</p>
+      </div>
+
+      <div class="feature">
+        <h3>スイッチなど</h3>
+        <p>フレンド追加するだけ！</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="box">
+    <h2>ルール</h2>
+    <h3>いろんな人を呼んでもいいけど掲示板とかに書いたりするのはダメ！</h3>
+    <h3>荒らしなどは禁止！</h3>
+  </div>
+
+  <div class="box">
+    <h2>コマンド</h2>
+    <h3>/sit</h3>
+    <h3>その場に座れる！</h3>
+  </div>
+  
+
+
+  
+
 </body>
 </html>
