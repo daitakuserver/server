@@ -321,9 +321,9 @@ async function updateServerStatus() {
   const statusDiv = document.getElementById("server-status");
 
   try {
-    const response = await fetch(
-      "https://api.mcsrvstat.us/3/companies-memorial.gl.joinmc.link"
-    );
+   const response = await fetch(
+  "https://api.mcstatus.io/v2/status/java/companies-memorial.gl.joinmc.link"
+);
 
     const data = await response.json();
 
