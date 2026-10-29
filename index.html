@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0a0d">
+<title>SMP | 命を奪い合うサーバー</title>
+<style>
+:root {
+  --site-primary: #b91f35;
+  --site-secondary: #24242d;
+  --site-background: #0a0a0d;
+  --site-on-primary: #ffffff;
+  --site-on-secondary: #f4f1f2;
+  --site-on-background: #f5f2f3;
+  --site-font-body: Inter, "Noto Sans JP", "Yu Gothic UI", Meiryo, sans-serif;
+  --site-font-heading: "Arial Black", Inter, "Noto Sans JP", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  color-scheme: light dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+body { margin: 0; font-family: var(--site-font-body); background: #0a0a0d; color: #f5f2f3; line-height: 1.7; }
+#app { min-height: 100vh; width: 100%; border-radius: 0; overflow: clip; background-color: light-dark(var(--site-background), var(--site-background)); color: light-dark(var(--site-on-background), var(--site-on-background)); }
+a { color: inherit; }
+.nav { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: calc(14px * var(--site-spacing-scale)) clamp(18px, 5vw, 72px); background: rgb(10 10 13 / 90%); border-bottom: 1px solid #ffffff18; backdrop-filter: blur(16px); }
+.brand { display: flex; align-items: center; gap: 11px; font-weight: 900; letter-spacing: .13em; text-decoration: none; }
+.brand-mark { display: grid; place-items: center; width: 34px; height: 34px; background: var(--site-primary); color: var(--site-on-primary); font-size: 14px; transform: skew(-8deg); }
+.nav-links { display: flex; flex-wrap: wrap; gap: clamp(12px, 2.5vw, 30px); align-items: center; }
+.nav-links a { text-decoration: none; color: #c7c2c5; font-size: 13px; font-weight: 700; transition: color .2s ease; }
+.nav-links a:hover, .nav-links a:focus-visible { color: #ff5268; }
+.hero { min-height: min(790px, calc(100svh - 64px)); position: relative; display: grid; place-items: center; padding: 92px 22px 110px; text-align: center; isolation: isolate; overflow: hidden; background: radial-gradient(ellipse at 50% 45%, #63132155 0%, #17101555 30%, transparent 65%), linear-gradient(145deg, #101014 0%, #0a0a0d 58%, #1b0b10 100%); }
+.hero::before { content: ""; position: absolute; z-index: -1; inset: 0; opacity: var(--site-decoration-opacity); background-image: linear-gradient(#ffffff08 1px, transparent 1px), linear-gradient(90deg, #ffffff08 1px, transparent 1px); background-size: 48px 48px; mask-image: linear-gradient(to bottom, black, transparent 88%); }
+.hero::after { content: ""; position: absolute; z-index: -1; width: min(72vw, 760px); aspect-ratio: 1; border: 1px solid #e12a4325; border-radius: 50%; box-shadow: 0 0 0 70px #e12a4308, 0 0 0 140px #e12a4305; opacity: var(--site-decoration-opacity); }
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; color: #ff6578; font-size: 11px; font-weight: 900; letter-spacing: .3em; text-transform: uppercase; }
+.eyebrow::before, .eyebrow::after { content: ""; width: 25px; height: 1px; background: currentColor; }
+h1 { max-width: 1000px; margin: 24px auto 16px; font-family: var(--site-font-heading); font-size: clamp(calc(35px * var(--site-heading-scale)), 7vw, calc(82px * var(--site-heading-scale))); line-height: 1.23; letter-spacing: .035em; font-weight: 950; }
+.title-line { display: block; }
+.char { display: inline-block; opacity: 0; transform: translateY(22px); filter: blur(5px); animation: reveal .65s cubic-bezier(.2,.75,.2,1) forwards; animation-delay: calc(var(--i) * 90ms + 450ms); }
+.char.red { color: #ff334f; text-shadow: 0 0 30px #ff183c45; }
+@keyframes reveal { to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+.hero-sub { color: #b5adb1; margin: 22px auto 30px; font-size: clamp(14px, 2vw, 17px); letter-spacing: .06em; }
+.smp-tag { display: inline-flex; align-items: center; gap: 9px; margin-top: 10px; padding: 7px 15px; border: 1px solid #ff40545c; background: #b91f3519; color: #ff6376; letter-spacing: .25em; font-weight: 900; font-size: 12px; }
+.smp-tag span { width: 6px; height: 6px; border-radius: 50%; background: #ff334f; box-shadow: 0 0 12px #ff334f; }
+.scroll-cue { position: absolute; bottom: 25px; color: #80777c; font-size: 10px; letter-spacing: .25em; }
+.scroll-cue::after { content: ""; display: block; width: 1px; height: 26px; margin: 9px auto 0; background: linear-gradient(#ff4054, transparent); }
+section.content-section { padding: 88px clamp(20px, 7vw, 100px); }
+.section-head { max-width: 1100px; margin: 0 auto 32px; }
+.kicker { color: #ff5369; font-size: 11px; font-weight: 900; letter-spacing: .24em; }
+h2 { margin: 8px 0 0; font-family: var(--site-font-heading); font-size: clamp(calc(26px * var(--site-heading-scale)), 4vw, calc(42px * var(--site-heading-scale))); line-height: 1.25; letter-spacing: .025em; }
+.section-desc { color: #a9a1a5; margin-top: 10px; }
+#connect { background: #101015; }
+.server-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; max-width: 1100px; margin: auto; }
+.server-card, .info-card, .rule-card { background: linear-gradient(145deg, #1a191f, #111115); border: 1px solid #ffffff14; border-radius: calc(14px * var(--site-radius-scale)); padding: calc(24px * var(--site-spacing-scale)); }
+.card-label { color: #a69ca2; font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.server-card h3, .info-card h3, .rule-card h3 { margin: 7px 0 13px; font-size: 18px; }
+.ip { color: #fff; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: clamp(12px, 1.5vw, 15px); overflow-wrap: anywhere; padding: 11px 12px; background: #08080b; border: 1px solid #ffffff12; border-radius: 7px; }
+.port { color: #ff687a; font-size: 12px; margin-top: 10px; }
+.copy-btn { margin-top: 14px; border: 1px solid #ff536966; border-radius: 7px; padding: 9px 13px; color: #fff; background: #b91f3526; font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; transition: background .2s, transform .2s; }
+.copy-btn:hover { background: #b91f3555; transform: translateY(-1px); }
+.copy-btn:focus-visible, a:focus-visible { outline: 2px solid #ff6376; outline-offset: 3px; }
+.friends { max-width: 1100px; margin: 14px auto 0; color: #b8b0b4; font-size: 13px; }
+.friends strong { color: #ff667a; }
+#voice { background: #0a0a0d; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 1100px; margin: auto; }
+.info-card { padding: clamp(22px, 3vw, 34px); }
+.info-card p { color: #b9b1b5; font-size: 14px; }
+.info-card .number { display: grid; place-items: center; width: 35px; height: 35px; color: #ff6478; border: 1px solid #ff64784d; background: #b91f351b; font-size: 12px; font-weight: 900; }
+.action-link { display: inline-flex; align-items: center; gap: 9px; margin-top: 10px; color: #ff687b; font-weight: 800; font-size: 13px; text-decoration: none; border-bottom: 1px solid #ff687b66; padding-bottom: 4px; }
+.action-link:hover { color: white; }
+.note { padding: 12px 14px; margin-top: 15px; border-left: 2px solid #b91f35; background: #b91f3515; color: #d0c7cb; font-size: 12px; }
+#discord { background: #111116; }
+.discord-panel { max-width: 1100px; margin: auto; padding: clamp(26px, 5vw, 48px); border: 1px solid #ffffff17; border-radius: calc(16px * var(--site-radius-scale)); background: radial-gradient(ellipse at 100% 0%, #5865f218, transparent 50%), #19191f; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.discord-panel p { max-width: 620px; color: #b8b1b5; font-size: 14px; }
+.discord-placeholder { flex-shrink: 0; padding: 12px 16px; border: 1px dashed #7b7d9b; border-radius: 8px; color: #d6d7f1; font-size: 12px; font-weight: 800; }
+#rules { background: #0a0a0d; }
+.rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 1100px; margin: auto; }
+.rule-card { padding: clamp(22px, 3vw, 34px); }
+.rule-card.allowed { border-top: 3px solid #e6a14a; }
+.rule-card.forbidden { border-top: 3px solid #e73a51; }
+.rule-card h3 { display: flex; align-items: center; gap: 10px; }
+.rule-symbol { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; font-size: 14px; }
+.allowed .rule-symbol { color: #f3bc70; background: #f3bc701c; }
+.forbidden .rule-symbol { color: #ff5a6d; background: #ff5a6d1c; }
+.rule-card ul { margin: 16px 0 0; padding-left: 20px; color: #d1c9cd; }
+.rule-card li { padding: 5px 0; }
+.rule-card p { color: #a9a1a5; font-size: 12px; }
+footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 25px clamp(20px, 7vw, 100px); border-top: 1px solid #ffffff12; background: #08080a; color: #82797e; font-size: 11px; letter-spacing: .08em; }
+footer strong { color: #e5dfe2; letter-spacing: .18em; }
+@media (max-width: 780px) { .nav { align-items: flex-start; flex-direction: column; gap: 12px; padding: 12px 18px; } .nav-links { gap: 10px 18px; } .nav-links a { font-size: 12px; } .hero { min-height: 650px; } .server-grid { grid-template-columns: 1fr; } .info-grid, .rules-grid { grid-template-columns: 1fr; } .discord-panel { align-items: flex-start; flex-direction: column; } section.content-section { padding-top: 66px; padding-bottom: 66px; } footer { align-items: flex-start; flex-direction: column; gap: 6px; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } .char { opacity: 1; transform: none; filter: none; } }
+</style>
+</head>
+<body>
+<div id="app" data-sites-preview-theme="custom">
+<header class="nav">
+  <a class="brand" href="#top" aria-label="SMP トップへ"><span class="brand-mark">SMP</span><span>SMP</span></a>
+  <nav class="nav-links" aria-label="メインナビゲーション">
+    <a href="#connect">参加方法</a><a href="#voice">ボイスチャット</a><a href="#discord">Discord</a><a href="#rules">ルール</a>
+  </nav>
+</header>
+<main>
+<section class="hero" id="top">
+  <div>
+    <div class="eyebrow">YOUR STORY STARTS HERE</div>
+    <h1 aria-label="命を奪い合うサーバー"><span class="title-line" id="title-line-one"></span><span class="title-line" id="title-line-two"></span></h1>
+    <p class="hero-sub">生き残るか、奪うか。自分だけの物語を始めよう。</p>
+    <div class="smp-tag"><span></span> SURVIVAL MULTIPLAYER</div>
+  </div>
+  <div class="scroll-cue">SCROLL TO EXPLORE</div>
+</section>
+<section class="content-section" id="connect">
+  <div class="section-head"><div class="kicker">01 / JOIN THE SERVER</div><h2>サーバーに参加する</h2><p class="section-desc">遊んでいるエディションに合わせて接続してください。</p></div>
+  <div class="server-grid">
+    <article class="server-card"><div class="card-label">JAVA EDITION</div><h3>Java版</h3><div class="ip" id="java-ip">ao-webmaster.tun.ply.gg</div><button class="copy-btn" data-copy="ao-webmaster.tun.ply.gg">IPをコピー ↗</button></article>
+    <article class="server-card"><div class="card-label">BEDROCK EDITION</div><h3>統合版</h3><div class="ip" id="bedrock-ip">ao-experienced.tun.ply.gg</div><div class="ip port-ip" id="bedrock-port">64686</div><button class="copy-btn" data-copy="ao-experienced.tun.ply.gg">IPをコピー ↗</button><button class="copy-btn" data-copy="64686">ポートをコピー ↗</button></article>
+    <article class="server-card"><div class="card-label">FRIEND JOIN</div><h3>フレンド追加で参加</h3><p class="section-desc">統合版からフレンドを追加して参加する場合</p><div class="ip">daitaku1563</div><button class="copy-btn" data-copy="daitaku1563">IDをコピー ↗</button></article>
+  </div>
+  <p class="friends">※ 接続できない場合は、IP・ポート番号をもう一度確認してください。</p>
+</section>
+<section class="content-section" id="voice">
+  <div class="section-head"><div class="kicker">02 / PROXIMITY VOICE</div><h2>Simple Voice Chat</h2><p class="section-desc">近くにいるプレイヤーと声で会話して、サバイバルをもっと楽しもう。</p></div>
+  <div class="info-grid">
+    <article class="info-card"><div class="number">01</div><h3>Java版向け</h3><p>対応するMinecraftのバージョンに合った Simple Voice Chat のMODを導入してください。サーバーと同じバージョンを使用すると安心です。</p><a class="action-link" href="https://modrinth.com/plugin/simple-voice-chat" target="_blank" rel="noopener noreferrer">Simple Voice Chat を確認 ↗</a></article>
+    <article class="info-card"><div class="number">02</div><h3>統合版向け（Simple Voice Chat Geyser）</h3><p>統合版でボイスチャットを使うには、まずゲーム内チャットで <strong>/svg</strong> と入力してください。表示されたメニューから「パスワード」を選び、パスワードを設定します。そのあと、下のサイトを開いて、プレイヤー名に <strong>統合版のプレイヤー名の先頭に「.」を付けたもの</strong>（例：<strong>.プレイヤー名</strong>）を入力し、さっき設定したパスワードを入力すれば設定できます。</p><a class="action-link" href="https://impending-shady-aliens.ngrok-free.dev" target="_blank" rel="noopener noreferrer">統合版ボイスチャット用サイトを開く ↗</a><div class="note">設定したパスワードを使ってください。プレイヤー名は統合版で使用している名前の先頭に「.」を付けて入力します。</div></article>
+  </div>
+</section>
+<section class="content-section" id="discord">
+  <div class="section-head"><div class="kicker">03 / COMMUNITY</div><h2>Discord</h2></div>
+  <div class="discord-panel"><div><h3>コミュニティのお知らせ</h3><p>アップデート情報やサーバーのお知らせ、プレイヤー同士の交流はこちらで案内する予定です。</p></div><a class="copy-btn discord-placeholder" href="https://discord.gg/cFv2benysA" target="_blank" rel="noopener noreferrer">Discordに参加する ↗</a></div>
+</section>
+<section class="content-section" id="rules">
+  <div class="section-head"><div class="kicker">04 / SERVER RULES</div><h2>サーバールール</h2><p class="section-desc">参加前にルールを確認して、みんなでサーバーを楽しもう。</p></div>
+  <div class="rules-grid">
+    <article class="rule-card allowed"><h3><span class="rule-symbol">✓</span>許可されていること</h3><ul><li>荒らし</li><li>プレイヤーキル（PvP）</li></ul><p>このサーバーでは、荒らしやプレイヤーキルもゲームプレイの一部として許可されています。</p></article>
+    <article class="rule-card forbidden"><h3><span class="rule-symbol">×</span>禁止されていること</h3><ul><li>チートの使用</li></ul><p>公平なプレイ環境を守るため、チートは禁止です。</p></article>
+  </div>
+</section>
+</main>
+<footer><strong>SMP</strong><span>命を奪い合うサーバー · SURVIVE YOUR WAY</span><span>© SMP</span></footer>
+</div>
+<script>
+(function () {
+  const lineOne = document.getElementById('title-line-one');
+  const lineTwo = document.getElementById('title-line-two');
+  const first = Array.from('命を奪い合う');
+  const second = Array.from('サーバー');
+  let index = 0;
+  function addChars(target, chars, redChars) {
+    chars.forEach((character) => {
+      const span = document.createElement('span');
+      span.className = 'char' + (redChars.includes(character) ? ' red' : '');
+      span.style.setProperty('--i', index++);
+      span.textContent = character;
+      target.appendChild(span);
+    });
+  }
+  addChars(lineOne, first, ['命', '奪', 'い', '合', 'う']);
+  addChars(lineTwo, second, []);
+  document.querySelectorAll('[data-copy]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const value = button.getAttribute('data-copy');
+      const original = button.textContent;
+      try {
+        await navigator.clipboard.writeText(value);
+        button.textContent = 'コピーしました ✓';
+      } catch (error) {
+        const field = document.createElement('textarea');
+        field.value = value;
+        field.style.position = 'fixed';
+        field.style.opacity = '0';
+        document.body.appendChild(field);
+        field.select();
+        const copied = document.execCommand('copy');
+        field.remove();
+        button.textContent = copied ? 'コピーしました ✓' : value;
+      }
+      window.setTimeout(() => { button.textContent = original; }, 1600);
+    });
+  });
+})();
+</script>
+</body>
+</html>
